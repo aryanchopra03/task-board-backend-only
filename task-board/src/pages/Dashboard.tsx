@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getAllTask } from "../api/TaskService";
 import type { Task } from "../types/Task";
 
 function Dashboard() {
     const [tasks, setTasks] = useState<Task[]>([]);
+    const location = useLocation();
 
     useEffect(() => {
         getAllTask()
            .then((data: Task[]) => setTasks(data))
            .catch((err: any) => console.error("Error fetching tasks", err));
            
-    }, []);
+    }, [location]);
     return(
         <div className="p-6">
             <h1 className="text-3xl font-bold mb-6 text-center">Task Board Dashboard</h1>

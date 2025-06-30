@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios, { Axios } from "axios";
+import axios from "axios";
 
 const AddTask = () => {
     const [title, setTitle] = useState('');
@@ -13,7 +13,7 @@ const AddTask = () => {
         const newTask = {title, status};
 
         try {
-            await axios.post('http://localhost:8080/tasks', newTask);
+            await axios.post('/tasks', newTask);
             alert('Task created Successfully!');
             navigate('/tasks');
 

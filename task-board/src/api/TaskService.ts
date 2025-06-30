@@ -10,7 +10,7 @@ export const updateTask = async (task: Task) => {
 
 export const getAllTask = async () => {
     try {
-        const response = await axios.get('./tasks');
+        const response = await axios.get('/tasks');
         return response.data;
 
     } 
@@ -20,18 +20,14 @@ export const getAllTask = async () => {
     }
 };
 
-export const getTaskById = async (id: number) => {
-    try {
-        const response = await axios.get(`/tasks/${id}`);
-        return response.data;
-
-    } catch (error) {
-        console.error("Error fetching task by ID:", error);
-        throw error;
-    }
-
+export const getTaskById = (id: number) => {
+    return axios.get(`/tasks/${id}`)
+    .then((res) => res.data)
+    .catch((err) => {
+        console.error("Error fetching task by ID:",err);
+        throw err;
+    });
 };
-
 export const deleteTask = async (id: number) => {
     return await axios.delete(`/tasks/${id}`);
 };

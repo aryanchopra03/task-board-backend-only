@@ -14,6 +14,7 @@ public class Task {
 
     private String title;
     private String status;
+    private String description;
 
     // Default constructor (needed by JPA)
     public Task() {
@@ -48,5 +49,12 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public String getDescription() {
+        return description;
     }
 }

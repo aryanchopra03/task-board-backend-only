@@ -29,4 +29,9 @@ export const getTaskById = async (id: number) => {
         console.error("Error fetching task by ID:", error);
         throw error;
     }
+
+};
+
+export const deleteTask = async (id: number) => {
+    return await axios.delete(`/tasks/${id}`);
 };

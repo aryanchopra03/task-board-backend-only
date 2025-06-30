@@ -4,7 +4,7 @@ import com.example.model.Task;
 import com.example.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
@@ -23,6 +23,16 @@ public class TaskController {
     public String testPing() {
         return "TaskController is alive";
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
+        return taskRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+
     @PostMapping
     public Task createTask(@RequestBody Task task) {
         return taskRepository.save(task);

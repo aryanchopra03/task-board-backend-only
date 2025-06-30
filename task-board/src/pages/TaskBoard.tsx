@@ -25,7 +25,7 @@ function TaskBoard() {
       <h1 className="text-2xl font-bold mb-4">Task Board</h1>
       <div className="grid grid-cols-3 gap-4">
         {tasks.map(task => (
-          <div key={task.id} className="bg-white p-4 rounded shadow">
+          <div key={task.id} className="bg-white p-4 rounded shadow text-gray-900">
             <h2 className="font-semibold">{task.title}</h2>
             <p className="text-sm text-gray-600">{task.status}</p>
           </div>

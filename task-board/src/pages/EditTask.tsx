@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {getTaskById, updateTask} from "../api/TaskService";
-import {updateTask as updateTaskAPI} from '../api/TaskService';
+import {getTaskById, updateTask as updateTaskAPI, deleteTask } from '../api/TaskService';
 import type { Task, TaskStatus } from "../types/Task";
 
 
@@ -20,7 +19,7 @@ const EditTask = () => {
                 setTask(data);
                 setTitle(data.title);
                 setStatus(data.status);
-                setDescription(data.description);
+                setDescription(data.description ?? "");
             })
             .catch((error: any) => {
                 console.error("Failed to fetch task", error);
@@ -40,12 +39,20 @@ const EditTask = () => {
 
         updateTaskAPI(updatedTask)
         .then(() => {
-            navigate("/");  // navigate back to task list after update
+            navigate("/tasks");  // navigate back to task list after update
         })
         .catch((error: any) => {
             console.error("Failed to update task", error);
         });
     };
+
+    const handleDelete = () => {
+        if (task && confirm("Are you sure you want to delete this task")) {
+            deleteTask(task.id)
+            .then(() => navigate("/tasks"))
+            .catch((error: any )  => console.error("Failed to delete task", error));
+        }
+    }
 
     if (!task) return <div>Loading...</div>;
 
@@ -65,17 +72,36 @@ const EditTask = () => {
             <label className="block mb-2 font-medium">Status</label>
             <select
                value={status}
-               onChange={(e) => setTitle(e.target.value)}
+               onChange={(e) => setStatus(e.target.value as TaskStatus)}
                className="w-full p-2 border rounded mb-4">
+
+                <option value="To Do">To Do</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
 
                </select>
 
-               <button
-               onClick={handleUpdate}
-               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-               >
-                Update Task
-               </button>
+               <label className="block mb-2 font-medium">Description</label>
+               <textarea 
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full p-2 border rounded mb-4"
+                    rows={4}>
+                </textarea>
+                <div className="flex">
+                    <button
+                        onClick={handleUpdate}
+                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                        Update Task
+                    </button>
+                    <button
+                    onClick={handleDelete}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-4"
+                    >
+                        Delete Task
+                    </button>
+                </div>
         </div>
     );
 };
